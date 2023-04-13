@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'node:path';
 
 import { Router } from 'express';
@@ -26,29 +27,43 @@ const uplaod = multer({
   })
 });
 
+const CategoryController = require('./app/controllers/CategoryController');
+const ProductController = require('./app/controllers/ProductController');
+const OrderController = require('./app/controllers/OrderController');
+
 // List categories
-router.get('/categories', listCategories);
+//router.get('/categories', listCategories);
+router.get('/categories', CategoryController.index);
 
 // Create category
-router.post('/categories', createCategory);
+//router.post('/categories', createCategory);
+router.post('/categories', CategoryController.store);
 
 // List products
-router.get('/products', listProducts);
+//router.get('/products', listProducts);
+router.get('/products', ProductController.index);
 
 // Create product
-router.post('/products', uplaod.single('image'), createProduct);
+//router.post('/products', uplaod.single('image'), createProduct);
+router.post('/products', uplaod.single('image'), ProductController.store);
 
 // Create product by category
-router.get('/categories/:categoryId/products', listProductsByCategory);
+//router.get('/categories/:categoryId/products', listProductsByCategory);
+router.get('/categories/:categoryId/products', ProductController.getByCategory);
 
 // List orders
-router.get('/orders', listOrders);
+//router.get('/orders', listOrders);
+router.get('/orders', OrderController.index);
 
 // Create order
-router.post('/orders', createOrder);
+//router.post('/orders', createOrder);
+router.post('/orders', OrderController.store);
 
 // Change order status
-router.patch('/orders/:orderId', changeOrderStatus);
+//router.patch('/orders/:orderId', changeOrderStatus);
+router.patch('/orders/:orderId', OrderController.update);
 
 // Delete/cancel order
-router.delete('/orders/:orderId', cancelOrder);
+router.delete('/orders/:orderId', OrderController.delete);
+//router.delete('/orders/:orderId', cancelOrder);
+
