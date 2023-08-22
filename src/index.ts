@@ -11,31 +11,31 @@ const app = express();
 const server = http.createServer(app);
 export const io = new Server(server);
 
-//mongoose.connect('mongodb://localhost:27017')
-//.then(() => {
-const port = 3004;
+mongoose.connect('mongodb://localhost:27017')
+  .then(() => {
+    const port = 3001;
 
 
-io.on('connect', () => {
-  console.log('Conectou');
-});
+    io.on('connect', () => {
+      console.log('Conectou');
+    });
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
+    app.use((req, res, next) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', '*');
+      res.setHeader('Access-Control-Allow-Headers', '*');
 
-  next();
-});
-app.use(express.json());
-app.use(router);
+      next();
+    });
+    app.use(express.json());
+    app.use(router);
 
-app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
+    app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
 
-server.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
-// })
-// .catch(() => console.log('erro ao conectar ao mongo'));
+    server.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  })
+  .catch(() => console.log('erro ao conectar ao mongo'));
 
 
